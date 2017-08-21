@@ -9,7 +9,6 @@ spec:
     type: "Git"
     git:
       uri: "https://github.com/renatoppuccini/demo-php.git"
-      ref: pipeline
   strategy:
     type: "JenkinsPipeline"
     jenkinsPipelineStrategy:
