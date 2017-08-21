@@ -3,6 +3,7 @@ node('maven') {
 
     stage('Build image'){
         echo 'Building docker image....'
+        checkout scm
     }
 
     stage('Deploy to DEV'){
