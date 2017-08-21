@@ -9,7 +9,10 @@ node('maven') {
     stage('Deploy to DEV'){
         echo 'Deploying to DEV....'
         sh "oc project php-pipeline"
-        sh "oc new-app php~https://github.com/renatoppuccini/demo-php.git"
+        //First build. Creating App
+        //sh "oc new-app php~https://github.com/renatoppuccini/demo-php.git"
+        //starting build from app already created.
+        sh "oc start-build demo-php --follow"
     }
     
     stage('Promote from DEV to QA'){
