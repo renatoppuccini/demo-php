@@ -19,8 +19,8 @@ node('maven') {
         echo 'Promoting to QA...'
     }
 
-    stage('Wait for approval'){
-        input 'Aprove to production?'
+    stage('Aguardando Aprovação'){
+        input 'Aprovar para PRODUÇO?'
     }
 
     stage ('Promote from QA to Production'){
