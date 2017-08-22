@@ -2,8 +2,8 @@ kind: "BuildConfig"
 apiVersion: "v1"
 metadata:
   name: "php-pipeline"
-  annotations:
-    pipeline.alpha.openshift.io/uses: '[{"name": "app", "namespace": "", "kind": "DeploymentConfig"}]'
+  //annotations:
+  //  pipeline.alpha.openshift.io/uses: '[{"name": "app", "namespace": "", "kind": "DeploymentConfig"}]'
 spec:
   source:
     type: "Git"
