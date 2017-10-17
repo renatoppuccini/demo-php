@@ -27,6 +27,11 @@
   b.sVTT=function(a){Ma=a};b.sVIDP=\"rx_visitID\";b.sVID=ca;b.rVID=Ia;b.gVI=X;b.gNVId=N;b.gARnVF=function(){var a=ea;ea=!1;return a};b.cAUV=function(){Ka()||(ba(l(),!1),P())};Oa(1);b.gPC=O;b.cPC=Oa;b.sPC=da;var B;n(v)&&(e.cooO=1);b.eWE=ga;b.oEIE=va;b.eA=function(){for(var a=0;a<B.length;a++)oa(B[a],0);B=[];e.cooO=1}}})();
   </script>";
 
+  echo "
+      <script>
+        alert( 'Hello, world!' );
+      </script>
+  ";
   echo "<h1>Olá Mundo v4.0</h1>";
   echo $_SERVER['SERVER_ADDR'];
 
