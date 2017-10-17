@@ -1,8 +1,9 @@
 <?php
   echo "<h1>Olá Mundo v4.0</h1> ";
-  echo $_SERVER['SERVER_ADDR']
+  echo $_SERVER['SERVER_ADDR'];
 
-  echo "<script type=\"text/javascript\">
+  echo "
+  <script type=\"text/javascript\">
   var a=window;a.dT_?a.console&&a.console.log(\"Duplicate agent injection detected, turning off redundant initConfig.\"):navigator.userAgent&&0<=navigator.userAgent.indexOf(\"RuxitSynthetic\")||navigator.cookieEnabled&&(window.dT_||(window.dT_={cfg:\"app=280564972A8B1342|cors=1|featureHash=A2SVfqr|lastModification=0|dtVersion=10129170927131437|reportUrl=https://bf20190olf.bf.dynatrace.com/bf|tp=500,50,0,1|featureHash=A2SVfqr|auto=false|domain=|rid=RID_|rpid=|app=280564972A8B1342\"}));(function(){function l(){var a=0;try{a=ma.performance.timing.navigationStart+Math.floor(ma.performance.now())}catch(c){}return 0>=a||isNaN(a)?(new Date).getTime():a}function na(a,c){return oa(a,c)}function g(a,c){for(var d=1;d<arguments.length;d++)a.push(arguments[d])}function pa(a){g(qa,a)}function r(a,c){return parseInt(a,c||10)}function ra(a){try{if(R)return R[a]}catch(c){}return null}function sa(a,c){try{window.sessionStorage.setItem(a,c)}catch(d){}}function f(a,c){var d=-1;c&&a&&a.indexOf&&(d=
   a.indexOf(c));return d}function ta(a){document.cookie=a+'=\"\";path=/'+(e.domain?\";domain=\"+e.domain:\"\")+\"; expires=Thu, 01 Jan 1970 00:00:01 GMT;\"}function ua(a){a=encodeURIComponent(a);var c=[];if(a)for(var d=0;d<a.length;d++){var t=a.charAt(d);g(c,$a[t]||t)}return c.join(\"\")}function D(a,c,d,t){va(function(){if(c||0===c){c=(\"\"+c).replace(/[;\n\r]/g,\"_\");c=\"DTSA\"===a.toUpperCase()?ua(c):c;var b=a+\"=\"+c+\";path=/\"+(e.domain?\";domain=\"+e.domain:\"\");d&&(b+=\";expires=\"+d.toUTCString());t&&(b+=\";Secure\");
   document.cookie=b}else ta(a)})}function n(a){var c,d,t,b=document.cookie.split(\";\");for(c=0;c<b.length;c++)if(d=f(b[c],\"=\"),t=b[c].substring(0,d),d=b[c].substring(d+1),t=t.replace(/^\s+|\s+$/g,\"\"),t===a)return\"DTSA\"===a.toUpperCase()?decodeURIComponent(d):d;return\"\"}function wa(a){var c=/^[0-9A-Za-z_\$\+\/\.\-\*%\|]*$/.test(a);return 0>=f(a,\"$\")||a&&2<a.split(\"$\").length?!1:c}function S(){var a=n(v);return a&&wa(a)?a:\"\"}function T(a){D(v,a,void 0,b.bcv(\"ssc\"))}function xa(a){a=a||S();var c={sessionId:null,
