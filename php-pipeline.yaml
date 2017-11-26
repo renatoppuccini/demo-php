@@ -2,14 +2,14 @@ kind: "BuildConfig"
 apiVersion: "v1"
 metadata:
   name: "php-pipeline"
-  //annotations:
-  //  pipeline.alpha.openshift.io/uses: '[{"name": "app", "namespace": "", "kind": "DeploymentConfig"}]'
+  annotations:
+    pipeline.alpha.openshift.io/uses: '[{"name": "demo-php", "kind": "DeploymentConfig"}]'
 spec:
   source:
     type: "Git"
     git:
-      uri: "https://github.com/renatoppuccini/demo-php.git"
+      uri: "http://github.com/renatoppuccini/demo-php.git"
   strategy:
     type: "JenkinsPipeline"
     jenkinsPipelineStrategy:
-      jenkinsfilePath: "Jenkinsfile"
+jenkinsfilePath: "pipeline/jenkins-pipeline.groovy"
