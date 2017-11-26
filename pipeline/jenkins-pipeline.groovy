@@ -8,7 +8,7 @@ node('maven') {
 
     stage('Deploy to DEV'){
         echo 'Deploying to DEV....'
-        openshiftDeploy(deploymentConfig: 'php')
+        openshiftDeploy(deploymentConfig: 'demo-php')
     }
     
     stage('Promote from DEV to QA'){
