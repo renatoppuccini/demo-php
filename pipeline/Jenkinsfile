@@ -1,5 +1,8 @@
-
-node('maven') {
+podTemplate(
+        inheritFrom: "maven",
+        label: "myJenkinsMavenSlave"
+    )
+node('myJenkinsMavenSlave') {
 
     stage('Build image'){
         echo 'Building docker image....'
