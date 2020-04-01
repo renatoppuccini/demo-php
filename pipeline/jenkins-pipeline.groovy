@@ -4,12 +4,19 @@ pipeline{
             label "php"
         }
     }
+     environment{
+        APPLICATION_NAME = 'demo-php'
+        DEV_PROJECT = "mydemo-php"
+        BUILDCFG_NAME = "nodejs-webapp"
+    }
 
     stages{
         stage('Build image'){
-            echo 'Building docker image....'
-            openshiftBuild(buildConfig: 'demo-php', showBuildLogs: 'true')
-
+            steps{
+                script{
+                    openshiftBuild(buildConfig: 'demo-php', showBuildLogs: 'true')
+                }
+            }
         }
 
         stage('Deploy to DEV'){
