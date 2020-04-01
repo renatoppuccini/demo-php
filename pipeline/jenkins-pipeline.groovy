@@ -1,4 +1,10 @@
-node('maven') {
+pipeline{
+    agent{
+        node{
+            label "php"
+        }
+    }
+
 
     stage('Build image'){
         echo 'Building docker image....'
