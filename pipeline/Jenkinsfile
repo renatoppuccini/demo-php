@@ -13,20 +13,19 @@ pipeline{
     }
     
     stages{
-        stage('Delete buildconfig'){
+        stage('Delete all app objects'){
             steps {
                 script {
                     openshift.withCluster() {
                         openshift.withProject(DEV_PROJECT) {
-                            openshift.selector("all", [ build : BUILDCFG_NAME ]).delete()
-		            openshift.selector("all", [ app : BUILDCFG_NAME ]).delete()
+                            //openshift.selector("all", [ build : BUILDCFG_NAME ]).delete()
                         }
                     }
                 }
             }
         }
 
-        stage('Create Image Builder') {
+        stage('Create All Application Objects if it does exists') {
             when {
                 expression {
                     openshift.withCluster() {
@@ -41,7 +40,9 @@ pipeline{
                     openshift.withCluster( "https://api.usa.puccini.redhat-demo.com:6443") {
                         openshift.withProject(DEV_PROJECT) {
                             //openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).logs("-f")
-			      openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT)
+			        openshift.selector("all", [ app : BUILDCFG_NAME ]).delete()
+				openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT)
+				
                         }
                     }
                 }
@@ -54,14 +55,8 @@ pipeline{
         	script {
 		  openshift.withCluster() {
 			  openshift.withProject(DEV_PROJECT) {
-				  // OpenShift 4
-				  //openshift.set("image", "dc/demo-php", "demo-php=image-registry.openshift-image-registry.svc:5000/mydemo-php/demo-php")
-
-				  // Update the Config Map which contains the users for the Tasks application
-				  // (just in case the properties files changed in the latest commit)
-				  //openshift.selector('configmap', 'tasks-config').delete()
-				  //def configmap = openshift.create('configmap', 'tasks-config', '--from-file=./configuration/application-users.properties', '--from-file=./configuration/application-roles.properties' )
-
+				// Deploy the development application.
+           			openshift.selector("dc", BUILDCFG_NAME).rollout().latest();
 				  // Deploy the development application.
 				 // openshift.selector("dc", "demo-php").rollout().latest();
 
