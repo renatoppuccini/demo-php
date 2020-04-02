@@ -42,8 +42,15 @@ pipeline{
                             //openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).logs("-f")
 			        openshift.selector("all", [ app : BUILDCFG_NAME ]).delete()
 			        openshift.selector("all", [ is : BUILDCFG_NAME ]).delete()
-				openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT)
-				
+				def bc = openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).narrow('bc')
+				def builds = bc.related('builds')
+				builds.untilEach(1) { // We want a minimum of 1 build
+				    // Unlike watch(), untilEach binds 'it' to a Selector for a single object.
+				    // Thus, untilEach will only terminate when all selected objects satisfy this
+				    // the condition established in the closure body (or until the timeout(10)
+				    // interrupts the operation).
+				    return it.object().status.phase == "Complete"
+				}
                         }
                     }
                 }
