@@ -1,30 +1,52 @@
-
-node('maven') {
-
-    stage('Build image'){
-        echo 'Building docker image....'
-        checkout scm
-    }
-
-    stage('Deploy to DEV'){
-        echo 'Deploying to DEV....'
-        sh "oc project demo-php"
-        //First build. Creating App
-        //sh "oc new-app php~https://github.com/renatoppuccini/demo-php.git"
-        //starting build from app already created.
-        sh "oc start-build demo-php --follow"
+pipeline{
+    agent{
+        node{
+            label "maven"
+        }
     }
     
-    stage('Promote from DEV to QA'){
-        echo 'Promoting to QA...'
+    environment{
+        APPLICATION_NAME = 'demo-php'
+        DEV_PROJECT = "mydemo-php"
+        BUILDCFG_NAME = "demo-php"
+        GIT = "https://github.com/renatoppuccini/demo-php.git"
+    }
+    
+    stages{
+        stage('Delete buildconfig'){
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject(DEV_PROJECT) {
+                            openshift.selector("all", [ template : BUILDCFG_NAME ]).delete()
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Create Image Builder') {
+            when {
+                expression {
+                    openshift.withCluster() {
+                        openshift.withProject(DEV_PROJECT) {
+                            return !openshift.selector("bc", "${BUILDCFG_NAME}").exists();
+                        }
+                    }
+                }
+            }
+           steps {
+                script {
+                    openshift.withCluster( "https://api.usa.puccini.redhat-demo.com:6443") {
+                        openshift.withProject(DEV_PROJECT) {
+                            openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).logs("-f")
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    stage('Aguardando Aprovação'){
-        input 'Aprovar para PRODUÇO?'
-    }
-
-    stage ('Promote from QA to Production'){
-        echo 'Promoting to production...'
-    }
+   
     
 }
