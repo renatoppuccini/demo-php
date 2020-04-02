@@ -42,8 +42,12 @@ pipeline{
                             //openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).logs("-f")
 			        openshift.selector("all", [ app : BUILDCFG_NAME ]).delete()
 			        openshift.selector("all", [ is : BUILDCFG_NAME ]).delete()
+				
+				echo "Using project: ${openshift.project()}"
+				
 				def bc = openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).narrow('bc')
 				def builds = bc.related('builds')
+				echo "Waiting for build to finish"
 				builds.untilEach(1) { // We want a minimum of 1 build
 				    // Unlike watch(), untilEach binds 'it' to a Selector for a single object.
 				    // Thus, untilEach will only terminate when all selected objects satisfy this
@@ -51,6 +55,21 @@ pipeline{
 				    // interrupts the operation).
 				    return it.object().status.phase == "Complete"
 				}
+				echo "Build finished"
+
+				echo "Waiting for Deployment to finish"
+				// Wait for application to be deployed
+				  def dc = openshift.selector("dc", "demo-php").object()
+				  def dc_version = dc.status.latestVersion
+				  def rc = openshift.selector("rc", "demo-php-${dc_version}").object()
+
+				  echo "Waiting for ReplicationController demo-php-${dc_version} to be ready"
+				  while (rc.spec.replicas != rc.status.readyReplicas) {
+				    sleep 5
+				    rc = openshift.selector("rc", "demo-php-${dc_version}").object()
+          			  }
+				echo "Deployment demo-php-${dc_version} ready"
+				 
                         }
                     }
                 }
@@ -68,16 +87,7 @@ pipeline{
 				  // Deploy the development application.
 				 // openshift.selector("dc", "demo-php").rollout().latest();
 
-				  // Wait for application to be deployed
-				  def dc = openshift.selector("dc", "demo-php").object()
-				  def dc_version = dc.status.latestVersion
-				  def rc = openshift.selector("rc", "demo-php-${dc_version}").object()
-
-				  echo "Waiting for ReplicationController demo-php-${dc_version} to be ready"
-				  while (rc.spec.replicas != rc.status.readyReplicas) {
-				    sleep 5
-				    rc = openshift.selector("rc", "demo-php-${dc_version}").object()
-          			  }
+				  
         		  }
      		 }
            }
