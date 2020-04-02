@@ -19,6 +19,8 @@ pipeline{
                     openshift.withCluster() {
                         openshift.withProject(DEV_PROJECT) {
                             openshift.selector("all", [ template : BUILDCFG_NAME ]).delete()
+		            openshift.selector("all", [ bc : BUILDCFG_NAME ]).delete()
+			    openshift.selector("all", [ dc : BUILDCFG_NAME ]).delete()
                         }
                     }
                 }
@@ -39,24 +41,15 @@ pipeline{
                 script {
                     openshift.withCluster( "https://api.usa.puccini.redhat-demo.com:6443") {
                         openshift.withProject(DEV_PROJECT) {
-                            openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).logs("-f")
+                            //openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).logs("-f")
+			      openshidt.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).logs("-f")
                         }
                     }
                 }
             }
         }
-        stage('Start Image') {
-			steps {
-				script {
-					openshift.withCluster() {
-						openshift.withProject() {
-							openshift.startBuild(BUILDCFG_NAME).logs("-f")
-						}
-					}
-				}
-			}
-	}
-	 // Deploy the built image to the Development Environment.
+     
+	   // Deploy the built image to the Development Environment.
     stage('Deploy to Dev') {
     	steps {
         	script {
