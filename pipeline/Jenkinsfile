@@ -59,16 +59,16 @@ pipeline{
 
 				echo "Waiting for Deployment to finish"
 				// Wait for application to be deployed
-				  def dc = openshift.selector("dc", "demo-php").object()
+				  def dc = openshift.selector("dc", BUILDCFG_NAME).object()
 				  def dc_version = dc.status.latestVersion
-				  def rc = openshift.selector("rc", "demo-php-${dc_version}").object()
+				  def rc = openshift.selector("rc", "${BUILDCFG_NAME}-${dc_version}").object()
 
-				  echo "Waiting for ReplicationController demo-php-${dc_version} to be ready"
+				  echo "Waiting for ReplicationController ${BUILDCFG_NAME}-${dc_version} to be ready"
 				  while (rc.spec.replicas != rc.status.readyReplicas) {
 				    sleep 5
-				    rc = openshift.selector("rc", "demo-php-${dc_version}").object()
+				    rc = openshift.selector("rc", "${BUILDCFG_NAME}-${dc_version}").object()
           			  }
-				echo "Deployment demo-php-${dc_version} ready"
+				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
 				 
                         }
                     }
