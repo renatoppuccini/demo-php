@@ -8,7 +8,7 @@ pipeline{
     environment{
         APPLICATION_NAME = 'demo-php'
         DEV_PROJECT = "mydemo-php"
-        BUILDCFG_NAME = "php-pipeline"
+        BUILDCFG_NAME = "demo-php"
     }
     
     stages{
