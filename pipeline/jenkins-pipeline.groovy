@@ -9,6 +9,7 @@ pipeline{
         APPLICATION_NAME = 'demo-php'
         DEV_PROJECT = "mydemo-php"
         BUILDCFG_NAME = "demo-php"
+        GIT = "https://github.com/renatoppuccini/demo-php.git"
     }
     
     stages{
@@ -36,9 +37,9 @@ pipeline{
             }
            steps {
                 script {
-                    openshift.withCluster( "https://api.ocp4.jwalton.redhat-demo.com:6443") {
+                    openshift.withCluster( "https://api.usa.puccini.redhat-demo.com:6443") {
                         openshift.withProject(DEV_PROJECT) {
-                            openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/nodejs:10", "--binary=true")
+                            openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT)
                         }
                     }
                 }
