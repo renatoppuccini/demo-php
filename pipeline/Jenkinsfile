@@ -64,20 +64,20 @@ pipeline{
 		  openshift.withCluster() {
 			  openshift.withProject(DEV_PROJECT) {
 				// Deploy the development application.
-           			openshift.selector("dc", BUILDCFG_NAME).rollout().latest();
+           			//openshift.selector("dc", BUILDCFG_NAME).rollout().latest();
 				  // Deploy the development application.
 				 // openshift.selector("dc", "demo-php").rollout().latest();
 
 				  // Wait for application to be deployed
-				  //def dc = openshift.selector("dc", "demo-php").object()
-				  //def dc_version = dc.status.latestVersion
-				  //def rc = openshift.selector("rc", "demo-php-${dc_version}").object()
+				  def dc = openshift.selector("dc", "demo-php").object()
+				  def dc_version = dc.status.latestVersion
+				  def rc = openshift.selector("rc", "demo-php-${dc_version}").object()
 
-//				  echo "Waiting for ReplicationController demo-php-${dc_version} to be ready"
-//				  while (rc.spec.replicas != rc.status.readyReplicas) {
-//				    sleep 5
-//				    rc = openshift.selector("rc", "demo-php-${dc_version}").object()
-  //        			  }
+				  echo "Waiting for ReplicationController demo-php-${dc_version} to be ready"
+				  while (rc.spec.replicas != rc.status.readyReplicas) {
+				    sleep 5
+				    rc = openshift.selector("rc", "demo-php-${dc_version}").object()
+          			  }
         		  }
      		 }
            }
