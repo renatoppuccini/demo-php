@@ -55,7 +55,7 @@ pipeline{
 		  openshift.withCluster() {
 			  openshift.withProject(DEV_PROJECT) {
 				  // OpenShift 4
-				  openshift.set("image", "dc/demo-php", "demo-php=image-registry.openshift-image-registry.svc:5000/mydemo-php/demo-php")
+				  //openshift.set("image", "dc/demo-php", "demo-php=image-registry.openshift-image-registry.svc:5000/mydemo-php/demo-php")
 
 				  // Update the Config Map which contains the users for the Tasks application
 				  // (just in case the properties files changed in the latest commit)
@@ -63,18 +63,18 @@ pipeline{
 				  //def configmap = openshift.create('configmap', 'tasks-config', '--from-file=./configuration/application-users.properties', '--from-file=./configuration/application-roles.properties' )
 
 				  // Deploy the development application.
-				  openshift.selector("dc", "demo-php").rollout().latest();
+				 // openshift.selector("dc", "demo-php").rollout().latest();
 
 				  // Wait for application to be deployed
-				  def dc = openshift.selector("dc", "demo-php").object()
-				  def dc_version = dc.status.latestVersion
-				  def rc = openshift.selector("rc", "demo-php-${dc_version}").object()
+				  //def dc = openshift.selector("dc", "demo-php").object()
+				  //def dc_version = dc.status.latestVersion
+				  //def rc = openshift.selector("rc", "demo-php-${dc_version}").object()
 
-				  echo "Waiting for ReplicationController demo-php-${dc_version} to be ready"
-				  while (rc.spec.replicas != rc.status.readyReplicas) {
-				    sleep 5
-				    rc = openshift.selector("rc", "demo-php-${dc_version}").object()
-          			  }
+//				  echo "Waiting for ReplicationController demo-php-${dc_version} to be ready"
+//				  while (rc.spec.replicas != rc.status.readyReplicas) {
+//				    sleep 5
+//				    rc = openshift.selector("rc", "demo-php-${dc_version}").object()
+  //        			  }
         		  }
      		 }
            }
