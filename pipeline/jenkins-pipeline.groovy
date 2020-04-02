@@ -39,7 +39,7 @@ pipeline{
                 script {
                     openshift.withCluster( "https://api.usa.puccini.redhat-demo.com:6443") {
                         openshift.withProject(DEV_PROJECT) {
-                            openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT)
+                            openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).logs("-f")
                         }
                     }
                 }
