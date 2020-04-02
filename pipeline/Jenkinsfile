@@ -18,9 +18,8 @@ pipeline{
                 script {
                     openshift.withCluster() {
                         openshift.withProject(DEV_PROJECT) {
-                            openshift.selector("all", [ template : BUILDCFG_NAME ]).delete()
-		            openshift.selector("all", [ bc : BUILDCFG_NAME ]).delete()
-			    openshift.selector("all", [ dc : BUILDCFG_NAME ]).delete()
+                            openshift.selector("all", [ build : BUILDCFG_NAME ]).delete()
+		            openshift.selector("all", [ app : BUILDCFG_NAME ]).delete()
                         }
                     }
                 }
