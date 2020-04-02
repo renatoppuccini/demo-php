@@ -18,7 +18,7 @@ pipeline{
                 script {
                     openshift.withCluster() {
                         openshift.withProject(DEV_PROJECT) {
-                            //openshift.selector("all", [ build : BUILDCFG_NAME ]).delete()
+                            openshift.selector("all", [ app : BUILDCFG_NAME ]).delete()
                         }
                     }
                 }
@@ -41,6 +41,7 @@ pipeline{
                         openshift.withProject(DEV_PROJECT) {
                             //openshift.newBuild("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).logs("-f")
 			        openshift.selector("all", [ app : BUILDCFG_NAME ]).delete()
+			        openshift.selector("all", [ is : BUILDCFG_NAME ]).delete()
 				openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT)
 				
                         }
