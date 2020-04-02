@@ -45,6 +45,17 @@ pipeline{
                 }
             }
         }
+        stage('Start Image') {
+			steps {
+				script {
+					openshift.withCluster() {
+						openshift.withProject() {
+							openshift.startBuild(BUILDCFG_NAME).logs("-f")
+						}
+					}
+				}
+			}
+		}
     }
 
    
