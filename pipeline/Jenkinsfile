@@ -99,7 +99,7 @@ pipeline{
 						echo "STARTING BUILD"
 						  echo env.BUILD
 						openshift.selector("bc", "${BUILDCFG_NAME}")
-						openshift.selector("bc", BUILDCFG_NAME).startBuild("--wait=true")
+						//openshift.selector("bc", BUILDCFG_NAME).startBuild("--wait=true")
 						openshift.selector("bc", "${BUILDCFG_NAME}").logs("-f")
 					  }
 				}
@@ -111,6 +111,7 @@ pipeline{
     stage('Deploy to Dev') {
 	when {
 		expression {
+			echo env.BUILD
 			return env.BUILD
 		}
 	}
@@ -119,6 +120,7 @@ pipeline{
 		  openshift.withCluster() {
 			  openshift.withProject(DEV_PROJECT) {
 				echo "DEPLOY PHASE"
+				  echo env.BUILD
 				  // Deploy the development application.
            			//openshift.selector("dc", BUILDCFG_NAME).rollout().latest();
 				  // Deploy the development application.
