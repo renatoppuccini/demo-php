@@ -45,7 +45,7 @@ pipeline{
 			        //openshift.selector("all", [ is : BUILDCFG_NAME ]).delete()
 				
 				echo "Using project: ${openshift.project()}"
-				echo BUILD
+				echo env.BUILD
 				def bc = openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).narrow('bc')
 				def builds = bc.related('builds')
 				echo "Waiting for build to finish"
