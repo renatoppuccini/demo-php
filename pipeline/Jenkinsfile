@@ -10,9 +10,9 @@ pipeline{
         DEV_PROJECT = "mydemo-php"
         BUILDCFG_NAME = "demo-php"
         GIT = "https://github.com/renatoppuccini/demo-php.git"
-	BUILD = false
+	
     }
-    
+    def BUILD = false
     stages{
         stage('Delete all app objects'){
             steps {
