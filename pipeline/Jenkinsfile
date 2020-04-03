@@ -90,6 +90,7 @@ pipeline{
 						echo "STARTING BUILD"
 						openshift.selector("bc", "${BUILDCFG_NAME}")
 						openshift.selector("bc", BUILDCFG_NAME).startBuild("--wait=true")
+						openshift.selector("bc", "${BUILDCFG_NAME}").logs("-f")
 					  }
 			 	}
 		       }
