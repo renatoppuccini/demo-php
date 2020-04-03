@@ -31,6 +31,7 @@ pipeline{
                 expression {
                     openshift.withCluster() {
                         openshift.withProject(DEV_PROJECT) {
+				echo openshift.selector("bc", "${BUILDCFG_NAME}").exists()
                             return !openshift.selector("bc", "${BUILDCFG_NAME}").exists();
                         }
                     }
@@ -45,7 +46,7 @@ pipeline{
 			        //openshift.selector("all", [ is : BUILDCFG_NAME ]).delete()
 				
 				echo "Using project: ${openshift.project()}"
-				
+				echo BUILD
 				def bc = openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).narrow('bc')
 				def builds = bc.related('builds')
 				echo "Waiting for build to finish"
@@ -87,6 +88,7 @@ pipeline{
 	stage('Starting Build to Dev') {
 		when {
 	                expression {
+				echo BUILD
 				return BUILD
 			}
 		}
@@ -96,6 +98,7 @@ pipeline{
 				  openshift.withCluster() {
 					  openshift.withProject(DEV_PROJECT) {
 						echo "STARTING BUILD"
+						  echo BUILD
 						openshift.selector("bc", "${BUILDCFG_NAME}")
 						openshift.selector("bc", BUILDCFG_NAME).startBuild("--wait=true")
 						openshift.selector("bc", "${BUILDCFG_NAME}").logs("-f")
