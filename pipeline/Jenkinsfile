@@ -81,8 +81,6 @@ pipeline{
                     }
                 }
             }
-	echo "return from stage"
-	 return
         }
 	    
 	stage('Starting Build to Dev') {
