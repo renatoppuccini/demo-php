@@ -74,6 +74,7 @@ pipeline{
 				//    rc = openshift.selector("rc", "${BUILDCFG_NAME}-${dc_version}").object()
           			//  }
 				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
+				return
 				 
                         }
                     }
