@@ -12,8 +12,9 @@ pipeline{
         GIT = "https://github.com/renatoppuccini/demo-php.git"
 	
     }
-    def BUILD = false
+    
     stages{
+	    def BUILD = false
         stage('Delete all app objects'){
             steps {
                 script {
