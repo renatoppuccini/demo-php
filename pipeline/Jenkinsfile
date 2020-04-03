@@ -47,7 +47,7 @@ pipeline{
 			        //openshift.selector("all", [ is : BUILDCFG_NAME ]).delete()
 				
 				echo "Using project: ${openshift.project()}"
-				echo env.BUILD
+				echo BUILD
 				def bc = openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).narrow('bc')
 				def builds = bc.related('builds')
 				echo "Waiting for build to finish"
@@ -78,7 +78,7 @@ pipeline{
           			//  }
 				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
 				echo "return from step"
-				env.BUILD = true
+				BUILD = true
 				 
                         }
                     }
@@ -89,7 +89,7 @@ pipeline{
 	stage('Starting Build to Dev') {
 		when {
 	                expression {
-				echo env.BUILD
+				echo BUILD
 				return BUILD
 			}
 		}
@@ -113,8 +113,8 @@ pipeline{
     stage('Deploy to Dev') {
 	when {
 		expression {
-			echo env.BUILD
-			return env.BUILD
+			echo BUILD
+			return BUILD
 		}
 	}
     	steps {
