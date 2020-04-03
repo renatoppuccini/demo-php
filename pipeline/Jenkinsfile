@@ -31,7 +31,6 @@ pipeline{
                 expression {
                     openshift.withCluster() {
                         openshift.withProject(DEV_PROJECT) {
-				echo openshift.selector("bc", "${BUILDCFG_NAME}").exists()
                             return !openshift.selector("bc", "${BUILDCFG_NAME}").exists();
                         }
                     }
