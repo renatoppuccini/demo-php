@@ -65,7 +65,9 @@ pipeline{
 				  def dc = openshift.selector("dc", BUILDCFG_NAME).object()
 				  def dc_version = dc.status.latestVersion
 				  def rc = openshift.selector("rc", "${BUILDCFG_NAME}-${dc_version}").object()
-				  dc.rollout().status()
+				echo "Rollout Status:"
+				dc = openshift.selector("dc", BUILDCFG_NAME)  
+				dc.rollout().status()
 				
 				  echo "Waiting for ReplicationController ${BUILDCFG_NAME}-${dc_version} to be ready"
 				  while (rc.spec.replicas != rc.status.readyReplicas) {
