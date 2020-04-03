@@ -18,7 +18,7 @@ pipeline{
                 script {
                     openshift.withCluster() {
                         openshift.withProject(DEV_PROJECT) {
-                            //openshift.selector("all", [ app : BUILDCFG_NAME ]).delete()
+                            openshift.selector("all", [ app : BUILDCFG_NAME ]).delete()
                         }
                     }
                 }
@@ -74,12 +74,15 @@ pipeline{
 				//    rc = openshift.selector("rc", "${BUILDCFG_NAME}-${dc_version}").object()
           			//  }
 				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
+				echo "return from step"
 				return
 				 
                         }
                     }
                 }
             }
+	echo "return from stage"
+	 return
         }
 	    
 	stage('Starting Build to Dev') {
