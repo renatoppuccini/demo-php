@@ -49,16 +49,15 @@ pipeline{
 				def builds = bc.related('builds')
 				echo "Waiting for build to finish"
 				bc.logs("-f")
-				
-				builds.untilEach(1) { // We want a minimum of 1 build
+				echo "Build finished"
+
+				//builds.untilEach(1) { // We want a minimum of 1 build
 				    // Unlike watch(), untilEach binds 'it' to a Selector for a single object.
 				    // Thus, untilEach will only terminate when all selected objects satisfy this
 				    // the condition established in the closure body (or until the timeout(10)
 				    // interrupts the operation).
-				    return it.object().status.phase == "Complete"
-				}
-				echo "Build finished"
-
+				//    return it.object().status.phase == "Complete"
+				//}
 				echo "Waiting for Deployment to finish"
 				
 				// Wait for application to be deployed
@@ -69,11 +68,11 @@ pipeline{
 				dc = openshift.selector("dc", BUILDCFG_NAME)  
 				dc.rollout().status()
 				
-				  echo "Waiting for ReplicationController ${BUILDCFG_NAME}-${dc_version} to be ready"
-				  while (rc.spec.replicas != rc.status.readyReplicas) {
-				    sleep 5
-				    rc = openshift.selector("rc", "${BUILDCFG_NAME}-${dc_version}").object()
-          			  }
+				//  echo "Waiting for ReplicationController ${BUILDCFG_NAME}-${dc_version} to be ready"
+				//  while (rc.spec.replicas != rc.status.readyReplicas) {
+				//    sleep 5
+				//    rc = openshift.selector("rc", "${BUILDCFG_NAME}-${dc_version}").object()
+          			//  }
 				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
 				 
                         }
