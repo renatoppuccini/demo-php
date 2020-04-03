@@ -87,7 +87,7 @@ pipeline{
 	stage('Starting Build to Dev') {
 		when {
 	                expression {
-				echo BUILD
+				echo env.BUILD
 				return BUILD
 			}
 		}
