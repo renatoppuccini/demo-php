@@ -10,6 +10,7 @@ pipeline{
         DEV_PROJECT = "mydemo-php"
         BUILDCFG_NAME = "demo-php"
         GIT = "https://github.com/renatoppuccini/demo-php.git"
+	BUILD = false
     }
     
     stages{
@@ -75,7 +76,7 @@ pipeline{
           			//  }
 				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
 				echo "return from step"
-				return
+				BUILD = true
 				 
                         }
                     }
@@ -84,6 +85,12 @@ pipeline{
         }
 	    
 	stage('Starting Build to Dev') {
+		when {
+	                expression {
+				return BUILD
+			}
+		}
+		
 		steps {
 			script {
 				  openshift.withCluster() {
@@ -93,13 +100,18 @@ pipeline{
 						openshift.selector("bc", BUILDCFG_NAME).startBuild("--wait=true")
 						openshift.selector("bc", "${BUILDCFG_NAME}").logs("-f")
 					  }
-			 	}
+				}
 		       }
 		 }
        }
      
 	   // Deploy the built image to the Development Environment.
     stage('Deploy to Dev') {
+	when {
+		expression {
+			return BUILD
+		}
+	}
     	steps {
         	script {
 		  openshift.withCluster() {
