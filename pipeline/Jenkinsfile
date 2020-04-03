@@ -47,7 +47,7 @@ pipeline{
 			        //openshift.selector("all", [ is : BUILDCFG_NAME ]).delete()
 				
 				echo "Using project: ${openshift.project()}"
-				echo BUILD
+				
 				def bc = openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).narrow('bc')
 				def builds = bc.related('builds')
 				echo "Waiting for build to finish"
@@ -89,7 +89,7 @@ pipeline{
 	stage('Starting Build to Dev') {
 		when {
 	                expression {
-				echo BUILD
+				echo "WHEN in BUILD"
 				return BUILD
 			}
 		}
@@ -99,8 +99,7 @@ pipeline{
 				  openshift.withCluster() {
 					  openshift.withProject(DEV_PROJECT) {
 						echo "STARTING BUILD"
-						  echo env.BUILD
-						  echo BUILD
+						 
 						openshift.selector("bc", "${BUILDCFG_NAME}")
 						//openshift.selector("bc", BUILDCFG_NAME).startBuild("--wait=true")
 						openshift.selector("bc", "${BUILDCFG_NAME}").logs("-f")
@@ -114,8 +113,8 @@ pipeline{
     stage('Deploy to Dev') {
 	when {
 		expression {
-			echo BUILD
-			echo env.BUILD
+			echo "WHEN  in DEV"
+			
 			return BUILD
 		}
 	}
@@ -124,8 +123,8 @@ pipeline{
 		  openshift.withCluster() {
 			  openshift.withProject(DEV_PROJECT) {
 				echo "DEPLOY PHASE"
-				  echo env.BUILD
-				   echo BUILD
+				  echo "DEPLOYING"
+				  
 				  // Deploy the development application.
            			//openshift.selector("dc", BUILDCFG_NAME).rollout().latest();
 				  // Deploy the development application.
