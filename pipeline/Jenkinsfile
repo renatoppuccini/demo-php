@@ -48,6 +48,7 @@ pipeline{
 				def bc = openshift.newApp("--name=${BUILDCFG_NAME}", "--image-stream=openshift/php:latest", GIT).narrow('bc')
 				def builds = bc.related('builds')
 				echo "Waiting for build to finish"
+				bc.logs("-f")
 				builds.untilEach(1) { // We want a minimum of 1 build
 				    // Unlike watch(), untilEach binds 'it' to a Selector for a single object.
 				    // Thus, untilEach will only terminate when all selected objects satisfy this
@@ -58,11 +59,12 @@ pipeline{
 				echo "Build finished"
 
 				echo "Waiting for Deployment to finish"
+				
 				// Wait for application to be deployed
 				  def dc = openshift.selector("dc", BUILDCFG_NAME).object()
 				  def dc_version = dc.status.latestVersion
 				  def rc = openshift.selector("rc", "${BUILDCFG_NAME}-${dc_version}").object()
-
+				  dc.logs
 				  echo "Waiting for ReplicationController ${BUILDCFG_NAME}-${dc_version} to be ready"
 				  while (rc.spec.replicas != rc.status.readyReplicas) {
 				    sleep 5
