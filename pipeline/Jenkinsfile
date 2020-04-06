@@ -96,7 +96,7 @@ pipeline{
 	                expression {
 				echo "WHEN in BUILD"
 				 echo env.BUILD
-				return env.BUILD
+				return env.BUILD.toBoolean()
 			}
 		}
 		
@@ -121,7 +121,7 @@ pipeline{
 		expression {
 			echo "WHEN  in DEV"
 			 echo env.BUILD
-			return env.BUILD
+			return env.BUILD.toBoolean()
 		}
 	}
     	steps {
