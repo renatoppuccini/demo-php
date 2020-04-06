@@ -81,7 +81,7 @@ pipeline{
 				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
 				echo env.BUILD
 				echo "return from step"
-				env.BUILD = true
+				//env.BUILD = true
 				
 				echo env.BUILD
 				
