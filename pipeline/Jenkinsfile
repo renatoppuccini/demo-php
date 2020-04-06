@@ -108,7 +108,7 @@ pipeline{
 						 
 						openshift.selector("bc", "${BUILDCFG_NAME}")
 						//openshift.selector("bc", BUILDCFG_NAME).startBuild("--wait=true")
-						openshift.selector("bc", "${BUILDCFG_NAME}").logs("-f")
+						openshift.selector("bc", "${BUILDCFG_NAME}").startBuild().logs("-f")
 					  }
 				}
 		       }
@@ -132,7 +132,7 @@ pipeline{
 				  echo "DEPLOYING"
 				  
 				  // Deploy the development application.
-           			//openshift.selector("dc", BUILDCFG_NAME).rollout().latest();
+           			  openshift.selector("dc", BUILDCFG_NAME).rollout().latest();
 				  // Deploy the development application.
 				 // openshift.selector("dc", "demo-php").rollout().latest();
 
