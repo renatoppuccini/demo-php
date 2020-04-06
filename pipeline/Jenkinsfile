@@ -34,7 +34,7 @@ pipeline{
                 expression {
                     openshift.withCluster() {
                         openshift.withProject(DEV_PROJECT) {
-				script { env.BUILD = false }
+				script { env.BUILD = true }
                         	return !openshift.selector("bc", "${BUILDCFG_NAME}").exists();
                         }
                     }
@@ -81,7 +81,7 @@ pipeline{
 				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
 				echo env.BUILD
 				echo "return from step"
-				//env.BUILD = true
+				env.BUILD = false
 				
 				echo env.BUILD
 				
