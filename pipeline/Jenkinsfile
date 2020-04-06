@@ -88,6 +88,7 @@ pipeline{
 				environment{
 					BUILD = true
 				}
+				sh "export BUILD=true"
 				 echo env.BUILD
                         }
                     }
