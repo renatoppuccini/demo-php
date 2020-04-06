@@ -80,9 +80,7 @@ pipeline{
 				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
 				echo "return from step"
 			
-				//withEnv(["BUILD=true"]) { // it can override any env variable
-				//    echo env.BUILD// prints "FOO = foobar"
-				//}
+				withEnv(["BUILD=true"]) 
 				environment{
 					BUILD = true
 				}
