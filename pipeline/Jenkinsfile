@@ -93,6 +93,7 @@ pipeline{
 		when {
 	                expression {
 				echo "WHEN in BUILD"
+				 echo env.BUILD
 				return BUILD
 			}
 		}
@@ -117,7 +118,7 @@ pipeline{
 	when {
 		expression {
 			echo "WHEN  in DEV"
-			
+			 echo env.BUILD
 			return BUILD
 		}
 	}
