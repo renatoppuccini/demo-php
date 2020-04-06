@@ -79,6 +79,7 @@ pipeline{
 				//    rc = openshift.selector("rc", "${BUILDCFG_NAME}-${dc_version}").object()
           			//  }
 				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
+				echo env.BUILD
 				echo "return from step"
 				env.BUILD = true
 				
@@ -95,7 +96,7 @@ pipeline{
 	                expression {
 				echo "WHEN in BUILD"
 				 echo env.BUILD
-				return BUILD
+				return env.BUILD
 			}
 		}
 		
@@ -120,7 +121,7 @@ pipeline{
 		expression {
 			echo "WHEN  in DEV"
 			 echo env.BUILD
-			return BUILD
+			return env.BUILD
 		}
 	}
     	steps {
