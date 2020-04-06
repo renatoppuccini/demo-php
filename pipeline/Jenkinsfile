@@ -11,7 +11,7 @@ pipeline{
         DEV_PROJECT = "mydemo-php"
         BUILDCFG_NAME = "demo-php"
         GIT = "https://github.com/renatoppuccini/demo-php.git"
-        BUILD = false
+        //BUILD = false
 	
     }
     
@@ -34,7 +34,8 @@ pipeline{
                 expression {
                     openshift.withCluster() {
                         openshift.withProject(DEV_PROJECT) {
-                            return !openshift.selector("bc", "${BUILDCFG_NAME}").exists();
+				script { env.BUILD = false }
+                        	return !openshift.selector("bc", "${BUILDCFG_NAME}").exists();
                         }
                     }
                 }
@@ -79,18 +80,11 @@ pipeline{
           			//  }
 				echo "Deployment ${BUILDCFG_NAME}-${dc_version} ready"
 				echo "return from step"
-			
-				withEnv(['BUILD=true']) {
-					 echo env.BUILD
-					sh "export BUILD=true"
-				}
-				 echo env.BUILD
-				environment{
-					BUILD = true
-				}
-				sh "export BUILD=true"
-				 echo env.BUILD
-                        }
+				env.BUILD = true
+				
+				echo env.BUILD
+				
+			}
                     }
                 }
             }
