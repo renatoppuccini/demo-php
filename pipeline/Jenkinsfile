@@ -1,4 +1,4 @@
-BUILD = false
+
 pipeline{
     agent{
         node{
@@ -11,6 +11,7 @@ pipeline{
         DEV_PROJECT = "mydemo-php"
         BUILDCFG_NAME = "demo-php"
         GIT = "https://github.com/renatoppuccini/demo-php.git"
+        BUILD = false
 	
     }
     
