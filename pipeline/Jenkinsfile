@@ -129,10 +129,19 @@ pipeline{
 		  openshift.withCluster() {
 			  openshift.withProject(DEV_PROJECT) {
 				echo "DEPLOY PHASE"
-				  echo "DEPLOYING"
+				 
+				echo "Waiting for Deployment to finish"
+				
+				// Wait for application to be deployed
+				  def dc = openshift.selector("dc", BUILDCFG_NAME).object()
+				  def dc_version = dc.status.latestVersion
+				  def rc = openshift.selector("rc", "${BUILDCFG_NAME}-${dc_version}").object()
 				  
+				dc = openshift.selector("dc", BUILDCFG_NAME)  
+				dc.rollout().status()
+				
 				  // Deploy the development application.
-           			  openshift.selector("dc", BUILDCFG_NAME).rollout().latest();
+           			  //openshift.selector("dc", BUILDCFG_NAME).rollout().latest();
 				  // Deploy the development application.
 				 // openshift.selector("dc", "demo-php").rollout().latest();
 
